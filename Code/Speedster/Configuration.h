@@ -23,7 +23,7 @@
   #define QTRA_SENSOR_7
 
   //// Total number of IR sensors. This number have to match with the number of sensors enable.
-  #define QTRA_SENSOR_0 8
+  #define QTRA_SENSOR_NUM 8
 
   //// Total number of samples for each read.
   #define IR_SENSORS_NUM_SAMPLES 5
