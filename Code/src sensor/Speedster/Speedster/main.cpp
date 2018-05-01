@@ -2,11 +2,8 @@
  * Speedster.cpp
  *
  * Created: 29/04/2018 21:59:23
- * Author : javir
+ * Author : Javier Rodriguez Posada
  */ 
-
-#include <avr/io.h>
-
 
 int main(void)
 {
