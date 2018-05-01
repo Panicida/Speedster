@@ -748,8 +748,7 @@ void PololuQTRSensorsAnalog::readPrivate(unsigned int *sensor_values)
 	{
 		for (i = 0; i < _numSensors; i++)
 		{
-			//No need to select channel 0
-			//ADMUX = (1<<6) | _analogPins[i];// set analog input channel
+			ADMUX = (1<<6) | _analogPins[i];// set analog input channel
 			ADCSRA |= 1 << ADSC;			// start the conversion
 			while (ADCSRA & (1 << ADSC));	// wait for conversion to finish
 			sensor_values[i] += ADC;		// add in the conversion result
