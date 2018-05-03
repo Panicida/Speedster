@@ -38,6 +38,7 @@ SUBDIRS :=
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../main.cpp \
+../OrangutanTime.cpp \
 ../QTRA_Sensor.cpp
 
 
@@ -49,18 +50,22 @@ ASM_SRCS +=
 
 OBJS +=  \
 main.o \
+OrangutanTime.o \
 QTRA_Sensor.o
 
 OBJS_AS_ARGS +=  \
 main.o \
+OrangutanTime.o \
 QTRA_Sensor.o
 
 C_DEPS +=  \
 main.d \
+OrangutanTime.d \
 QTRA_Sensor.d
 
 C_DEPS_AS_ARGS +=  \
 main.d \
+OrangutanTime.d \
 QTRA_Sensor.d
 
 OUTPUT_FILE_PATH +=Speedster.elf
@@ -77,6 +82,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

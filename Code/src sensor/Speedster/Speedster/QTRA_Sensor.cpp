@@ -37,6 +37,9 @@ QTRASensor::QTRASensor(unsigned char* sensorPins, unsigned char numSensors, unsi
 		portMask |= (1 << sensorPins[currentPin]);
 	}
 	
+	// Configure ADC settings. Prescalar set to 156kHz
+	ADCSRA |= (1 << ADEN)| (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
+	
 	// Turn off the emitter
 	EmittersOff();
 }
@@ -66,9 +69,6 @@ void QTRASensor::Read(unsigned int* sensorValues)
 	// Set all sensors pins to high-Z inputs
 	DDRC &= ~(1 << portMask);
 	PORTC &= ~(1 << portMask);
-	
-	// Configure the ADC
-	ADCSRA |= (1 << ADEN)| (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // Set ADC prescalar to 128 - 125KHz sample rate @ 16MHz
 	
 	for (sumplesDone = 0; sumplesDone < numSamplesPerSensor; sumplesDone++)
 	{

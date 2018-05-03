@@ -169,6 +169,12 @@
     <Compile Include="main.cpp">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="OrangutanTime.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="OrangutanTime.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="QTRA_Sensor.cpp">
       <SubType>compile</SubType>
     </Compile>
