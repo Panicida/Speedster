@@ -11,11 +11,11 @@
 
 int main()
 {
-	DDRD |= (1<<DDD7); // set LED pin PD1 to output
+	DDRD |= (1<<DDD1); // set LED pin PD1 to output
 	while (1) {
-		PORTD |= (1<<PORTD7); // drive PD1 high
+		PORTD |= (1<<PORTD1); // drive PD1 high
 		_delay_ms(100); // delay 100 ms
-		PORTD &= (0<<PORTD7); // drive PD1 low
+		PORTD &= ~(1<<PORTD1); // drive PD1 low
 		_delay_ms(900); // delay 900 ms
 	}
 }
