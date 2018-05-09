@@ -9,6 +9,6 @@
 #ifndef CONFIGURATION_H_
 #define CONFIGURATION_H_
 
-#include "../Senses/QTRA_Sensor.h"
+#include "Senses/QTRA_Sensor.h"
 
 #endif /* CONFIGURATION_H_ */
