@@ -1,74 +1,108 @@
 /*
- * qtra_sensor.cpp
+ * QTRA_Sensor.cpp
  *
- * Created: 28/04/2018 16:03:40
+ * Created: 01/05/2018 13:11:40
  *  Author: Javier Rodriguez Posada
  */ 
 
-#include "qtra_sensor.h"
-#include <math.h>
 #include <avr/io.h>
 
-QTRA_Sensor::QTRA_Sensor()
+#include "QTRA_Sensor.h"
+
+
+QTRASensor::QTRASensor(unsigned char* sensorPins, unsigned char numSensors, unsigned char numSamplesPerSensor)
 {
-	//// Save the pins configuration.
-	//this->pins = pins;
+	unsigned char currentPin = 0;
 	
-	//// Set the pins as analog inputs.
-	QTRA_Sensor::SetPins();
+	calibratedMinimumOn=0;
+	calibratedMaximumOn=0;
+	calibratedMinimumOff=0;
+	calibratedMaximumOff=0;
+	
+	if (numSensors > QTRA_MAX_SENSORS)
+	{
+		this->numSensors = QTRA_MAX_SENSORS;
+	}
+	else
+	{
+		this->numSensors = numSensors;
+	}
+	
+	this->numSamplesPerSensor = numSamplesPerSensor;
+	
+	portMask = 0;
+	for(currentPin = 0; currentPin < numSensors; currentPin++)
+	{
+		this->sensorPins[currentPin] = sensorPins[currentPin];
+		portMask |= (1 << sensorPins[currentPin]);
+	}
+	
+	// Configure ADC settings. Prescalar set to 156kHz
+	ADCSRA |= (1 << ADEN)| (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
+	
+	// Turn off the emitter
+	EmittersOff();
 }
 
-/// <sumary>
-/// bit = 0 -> input, bit = 1 -> output.
-/// Port C is a 7-bit port
-/// </sumary>
-bool QTRA_Sensor::SetPins()
+void QTRASensor::Read(unsigned int* sensorValues)
 {
-	bool result = false;
+	unsigned char sumplesDone = 0;
+	unsigned char currentSensor = 0;
 	
-	ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // Set ADC prescalar to 128 - 125KHz sample rate @ 16MHz
-
-	ADMUX |= (1 << REFS0); // Set ADC reference to AVCC
-	ADMUX |= (1 << ADLAR); // Left adjust ADC result to allow easy 8 bit reading
-
-	// No MUX values needed to be changed to use ADC0
-
-	ADCSRA |= (0 << ADATE);  // Set ADC to Free-Running Mode
-
-	ADCSRA |= (1 << ADEN);  // Enable ADC
-	ADCSRA |= (1 << ADSC);  // Start A2D Conversions
+	EmittersOn();
 	
-	PORTC = (1<<PORTC0);
-	DDRC = (1<<DDC0);
+	// Store current state of various registers.
+	unsigned char admux = ADMUX;
+	unsigned char adcsra = ADCSRA;
+	unsigned char ddr = DDRD;
+	unsigned char port = PORTD;
 	
-	//DDRC &= 0b1111110;
-	//PORTC |=0b0000001; 
-	/*
-	//// Save the current port configuration.
-	int port_registry_default_value = DDRC;
+	// Wait for any current conversion to finish.
+	while (ADCSRA & (1 << ADSC));
 	
-	//// Set all pins as output
-	int port_registry_value = 255;
-	
-	//// Restore pins that has not to be set.
-	for(int i=0; i< 8; i++)
+	// Reset values.
+	for (currentSensor = 0; currentSensor < numSensors; currentSensor++)
 	{
-		if (!this->pins[i])
+		sensorValues[currentSensor] = 0;
+	}
+	
+	// Set all sensors pins to high-Z inputs
+	DDRC &= ~(1 << portMask);
+	PORTC &= ~(1 << portMask);
+	
+	for (sumplesDone = 0; sumplesDone < numSamplesPerSensor; sumplesDone++)
+	{
+		for (currentSensor = 0; currentSensor < numSensors; currentSensor++)
 		{
-			pin_registry_value |= pow(2,i);
+			// Set analog input channel
+			ADMUX = (1 << REFS0) | sensorPins[currentSensor];
+			
+			// Start the conversion.
+			ADCSRA |= (1 << ADSC);
+			
+			// Wait for conversion to finish.
+			while (ADCSRA & (1 << ADSC));
+			
+			// Add in the conversion result.
+			sensorValues[currentSensor] += ADC;
 		}
 	}
 	
-	if (port_registry_value < 256)
-	{
-		DDRC = port_registry_value
-		result = true;
-	}
-	*/
-	return result;
+	// Restore registry default values.
+	ADMUX = admux;
+	ADCSRA = adcsra;
+	PORTD = port;
+	DDRD = ddr;
+	
+	EmittersOff();
 }
 
-bool QTRA_Sensor::Read(int& values)
+void QTRASensor::EmittersOn()
 {
-	return ADCH;
+	PORTD &= ~(1<<DDD7);
+}
+
+void QTRASensor::EmittersOff()
+{
+	PORTD |= (1<<DDD7);
 }
