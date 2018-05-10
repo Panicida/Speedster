@@ -1,7 +1,7 @@
 /*
- * Motor Prototype.cpp
+ * Motion Prototype.cpp
  *
- * Created: 10/05/2018 18:55:22
+ * Created: 10/05/2018 20:29:00
  * Author : javir
  */ 
 

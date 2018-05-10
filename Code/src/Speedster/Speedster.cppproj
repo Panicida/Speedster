@@ -175,9 +175,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Motor\Motor.cppproj">
-      <Name>Motor</Name>
-      <Project>{d000d3cb-c0cd-441c-96d3-457bfa82f2f0}</Project>
+    <ProjectReference Include="..\Motion\Motion.cppproj">
+      <Name>Motion</Name>
+      <Project>{a757db02-604a-45f4-aaa0-f6aa83aea768}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Senses\Senses.cppproj">
