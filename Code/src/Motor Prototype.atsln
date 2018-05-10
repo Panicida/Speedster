@@ -3,12 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Atmel Studio Solution File, Format Version 11.00
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Speedster", "Speedster\Speedster.cppproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Motor Prototype", "Motor Prototype\Motor Prototype.cppproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
 	ProjectSection(ProjectDependencies) = postProject
-		{468044B7-9E2F-46A9-9AD8-56E22AD1538E} = {468044B7-9E2F-46A9-9AD8-56E22AD1538E}
+		{D000D3CB-C0CD-441C-96D3-457BFA82F2F0} = {D000D3CB-C0CD-441C-96D3-457BFA82F2F0}
 	EndProjectSection
-EndProject
-Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Senses", "Senses\Senses.cppproj", "{468044B7-9E2F-46A9-9AD8-56E22AD1538E}"
 EndProject
 Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Motor", "Motor\Motor.cppproj", "{D000D3CB-C0CD-441C-96D3-457BFA82F2F0}"
 EndProject
@@ -22,10 +20,6 @@ Global
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.Build.0 = Debug|AVR
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.ActiveCfg = Release|AVR
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.Build.0 = Release|AVR
-		{468044B7-9E2F-46A9-9AD8-56E22AD1538E}.Debug|AVR.ActiveCfg = Debug|AVR
-		{468044B7-9E2F-46A9-9AD8-56E22AD1538E}.Debug|AVR.Build.0 = Debug|AVR
-		{468044B7-9E2F-46A9-9AD8-56E22AD1538E}.Release|AVR.ActiveCfg = Release|AVR
-		{468044B7-9E2F-46A9-9AD8-56E22AD1538E}.Release|AVR.Build.0 = Release|AVR
 		{D000D3CB-C0CD-441C-96D3-457BFA82F2F0}.Debug|AVR.ActiveCfg = Debug|AVR
 		{D000D3CB-C0CD-441C-96D3-457BFA82F2F0}.Debug|AVR.Build.0 = Debug|AVR
 		{D000D3CB-C0CD-441C-96D3-457BFA82F2F0}.Release|AVR.ActiveCfg = Release|AVR
