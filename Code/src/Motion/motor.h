@@ -5,44 +5,99 @@
  *  Author: Javier Rodriguez Posada
  */ 
 
-
 #ifndef MOTOR_H_
 #define MOTOR_H_
 
-enum MotorPosition : unsigned char
+namespace Motion
 {
-	left,
-	right	
-};
+	enum MotorPosition
+	{
+		Left,
+		Right
+	};
 
-struct MotorInfo
-{
-	MotorPosition motorPosition;
-	unsigned char speedPin;
-	unsigned char directionPin;
-}; 
+	enum MotorControlMode
+	{
+		// One PWM pin (speed) and one simple digital output pin (direction).
+		Simple,
+		
+		// Two PWM variable pins. Only one pin is used a PWM signal at a time.
+		// Direction is determined by which pin has each role.
+		Complex
+	};
+	
+	enum PWMPin
+	{
+		TC0,
+		TC1,
+		TC2
+	};
 
-class Motors
-{
-	public:
-		// Constructor.
-		// motorsInfo has to be an array of size numMotors.
-		Motors(MotorInfo* motorsInfo, unsigned char numMotors);
+	struct MotorInfoStruct
+	{
+		MotorPosition motorPosition;
 		
-		// Sets the motors' speed.
-		// speed: array with the desired speed for each motor. Order has to match constructor.
-		void SetSpeed(short* speed);
+		// Speed pin. In complex mode this will be the pin used for PWM of the forward movement.
+		PWMPin pwmPin;
+	};
+	
+	struct MotorSpeedStruct
+	{
+		unsigned char speed;
+		PWMPin pwmPin;
+	};
+
+	class Motors
+	{
+		public :
+			Motors(MotorInfoStruct* motorInfo, unsigned char numMotors);
+			
+			// Sets the motors' speed.
+			// speed: array with the desired speed for each motor. Order has to match constructor.
+			void SetSpeed(MotorSpeedStruct* speed);
+			
+			// Sets the motors' direction.
+			// direction: (true = forward, false = reversed) array with the desired direction for each motor. Order has to match constructor.
+			virtual void SetDirection(bool direction) = 0;
+			
+			// Fill a given MotorInfo struct.
+			static void SetMotorInfo(MotorInfoStruct* motorInfo, MotorPosition motorPosition, PWMPin pwmPin);
 		
-		// Sets the motors' direction.
-		// direction: (true = forward, false = reversed) array with the desired direction for each motor. Order has to match constructor.
-		void SetDirection(bool* direction);
-	private:
-		// Configure the PWM registries.
-		void InitializePWM();
-		
-		// Number of motors.
-		unsigned char numMotors;
-		
-};
+		private:
+			// Initializes the corresponding timers.
+			void InitializeTC0();
+			void InitializeTC1();
+			void InitializeTC2();
+			
+			// Set speed into the corresponding pin.
+			virtual void SetTC0Speed(unsigned char speed) = 0;
+			virtual void SetTC1Speed(unsigned char speed) = 0;
+			virtual void SetTC2Speed(unsigned char speed) = 0;
+			
+		protected:
+			// Number of motors.
+			unsigned char numMotors;
+			
+			// Whether the motor should run forward or not.
+			bool forward;
+	};
+	
+	class MotorsComplex : public Motors
+	{
+		public:
+			// Constructor.
+			// motorsInfo has to be an array of size numMotors.
+			MotorsComplex(MotorInfoStruct* motorInfo, unsigned char numMotors);
+			
+			// Sets the motors' direction.
+			// direction: (true = forward, false = reversed) array with the desired direction for each motor. Order has to match constructor.
+			void SetDirection(bool direction);
+		private:
+			// Set speed into the corresponding pin.
+			void SetTC0Speed(unsigned char speed);
+			void SetTC1Speed(unsigned char speed);
+			void SetTC2Speed(unsigned char speed);
+	};
+}
 
 #endif /* MOTOR_H_ */
