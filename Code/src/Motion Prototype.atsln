@@ -3,14 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Atmel Studio Solution File, Format Version 11.00
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Speedster", "Speedster\Speedster.cppproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Motion Prototype", "Motion Prototype\Motion Prototype.cppproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
 	ProjectSection(ProjectDependencies) = postProject
-		{468044B7-9E2F-46A9-9AD8-56E22AD1538E} = {468044B7-9E2F-46A9-9AD8-56E22AD1538E}
+		{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6} = {6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}
 	EndProjectSection
 EndProject
-Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Senses", "Senses\Senses.cppproj", "{468044B7-9E2F-46A9-9AD8-56E22AD1538E}"
-EndProject
 Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Motion", "Motion\Motion.cppproj", "{A757DB02-604A-45F4-AAA0-F6AA83AEA768}"
+EndProject
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "PolymorphismFix", "Polymorphism Fix\PolymorphismFix.cppproj", "{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,14 +22,14 @@ Global
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Debug|AVR.Build.0 = Debug|AVR
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.ActiveCfg = Release|AVR
 		{DCE6C7E3-EE26-4D79-826B-08594B9AD897}.Release|AVR.Build.0 = Release|AVR
-		{468044B7-9E2F-46A9-9AD8-56E22AD1538E}.Debug|AVR.ActiveCfg = Debug|AVR
-		{468044B7-9E2F-46A9-9AD8-56E22AD1538E}.Debug|AVR.Build.0 = Debug|AVR
-		{468044B7-9E2F-46A9-9AD8-56E22AD1538E}.Release|AVR.ActiveCfg = Release|AVR
-		{468044B7-9E2F-46A9-9AD8-56E22AD1538E}.Release|AVR.Build.0 = Release|AVR
 		{A757DB02-604A-45F4-AAA0-F6AA83AEA768}.Debug|AVR.ActiveCfg = Debug|AVR
 		{A757DB02-604A-45F4-AAA0-F6AA83AEA768}.Debug|AVR.Build.0 = Debug|AVR
 		{A757DB02-604A-45F4-AAA0-F6AA83AEA768}.Release|AVR.ActiveCfg = Release|AVR
 		{A757DB02-604A-45F4-AAA0-F6AA83AEA768}.Release|AVR.Build.0 = Release|AVR
+		{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}.Debug|AVR.ActiveCfg = Debug|AVR
+		{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}.Debug|AVR.Build.0 = Debug|AVR
+		{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}.Release|AVR.ActiveCfg = Release|AVR
+		{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
