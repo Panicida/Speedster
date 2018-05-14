@@ -104,6 +104,5 @@ void QTRASensor::EmittersOn()
 
 void QTRASensor::EmittersOff()
 {
-	
 	PORTD &= ~(1<<DDD7);
 }
