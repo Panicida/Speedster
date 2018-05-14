@@ -30,6 +30,7 @@ QTRASensor::QTRASensor(unsigned char* sensorPins, unsigned char numSensors, unsi
 	
 	this->numSamplesPerSensor = numSamplesPerSensor;
 	
+	// Sensors pins mask
 	portMask = 0;
 	for(currentPin = 0; currentPin < numSensors; currentPin++)
 	{
@@ -37,10 +38,14 @@ QTRASensor::QTRASensor(unsigned char* sensorPins, unsigned char numSensors, unsi
 		portMask |= (1 << sensorPins[currentPin]);
 	}
 	
+	// Do not mask ADC6 and ADC7
+	portMask &= ~(1 << ADC6_PIN) & ~(ADC7_PIN);
+	
 	// Configure ADC settings. Prescalar set to 156kHz
 	ADCSRA |= (1 << ADEN)| (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
 	
 	// Turn off the emitter
+	DDRD |= (1 << DDD7);
 	EmittersOff();
 }
 
@@ -67,8 +72,8 @@ void QTRASensor::Read(unsigned int* sensorValues)
 	}
 	
 	// Set all sensors pins to high-Z inputs
-	DDRC &= ~(1 << portMask);
-	PORTC &= ~(1 << portMask);
+	DDRC &= ~portMask;
+	PORTC &= ~portMask;
 	
 	for (sumplesDone = 0; sumplesDone < numSamplesPerSensor; sumplesDone++)
 	{
