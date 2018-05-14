@@ -44,8 +44,10 @@ QTRASensor::QTRASensor(unsigned char* sensorPins, unsigned char numSensors, unsi
 	// Configure ADC settings. Prescalar set to 156kHz
 	ADCSRA |= (1 << ADEN)| (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
 	
-	// Turn off the emitter
+	// Set emitter pin to output.
 	DDRD |= (1 << DDD7);
+	
+	// Turn off the emitter
 	EmittersOff();
 }
 
@@ -53,8 +55,6 @@ void QTRASensor::Read(unsigned int* sensorValues)
 {
 	unsigned char sumplesDone = 0;
 	unsigned char currentSensor = 0;
-	
-	EmittersOn();
 	
 	// Store current state of various registers.
 	unsigned char admux = ADMUX;
@@ -98,8 +98,6 @@ void QTRASensor::Read(unsigned int* sensorValues)
 	ADCSRA = adcsra;
 	PORTD = port;
 	DDRD = ddr;
-	
-	EmittersOff();
 }
 
 void QTRASensor::EmittersOn()
