@@ -10,7 +10,7 @@
 #include "QTRA_Sensor.h"
 
 
-QTRASensor::QTRASensor(unsigned char* sensorPins, unsigned char numSensors, unsigned char numSamplesPerSensor)
+Senses::QTRASensor::QTRASensor(unsigned char* sensorPins, unsigned char numSensors, unsigned char numSamplesPerSensor)
 {
 	unsigned char currentPin = 0;
 	
@@ -51,7 +51,7 @@ QTRASensor::QTRASensor(unsigned char* sensorPins, unsigned char numSensors, unsi
 	EmittersOff();
 }
 
-void QTRASensor::Read(unsigned int* sensorValues)
+void Senses::QTRASensor::Read(unsigned int* sensorValues)
 {
 	unsigned char sumplesDone = 0;
 	unsigned char currentSensor = 0;
@@ -100,12 +100,12 @@ void QTRASensor::Read(unsigned int* sensorValues)
 	DDRD = ddr;
 }
 
-void QTRASensor::EmittersOn()
+void Senses::QTRASensor::EmittersOn()
 {
 	PORTD |= (1<<DDD7);
 }
 
-void QTRASensor::EmittersOff()
+void Senses::QTRASensor::EmittersOff()
 {
 	PORTD &= ~(1<<DDD7);
 }
