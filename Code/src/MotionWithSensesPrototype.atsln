@@ -7,11 +7,14 @@ Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "MotionWithSensesPrototype",
 	ProjectSection(ProjectDependencies) = postProject
 		{A757DB02-604A-45F4-AAA0-F6AA83AEA768} = {A757DB02-604A-45F4-AAA0-F6AA83AEA768}
 		{468044B7-9E2F-46A9-9AD8-56E22AD1538E} = {468044B7-9E2F-46A9-9AD8-56E22AD1538E}
+		{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6} = {6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}
 	EndProjectSection
 EndProject
 Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Motion", "Motion\Motion.cppproj", "{A757DB02-604A-45F4-AAA0-F6AA83AEA768}"
 EndProject
 Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Senses", "Senses\Senses.cppproj", "{468044B7-9E2F-46A9-9AD8-56E22AD1538E}"
+EndProject
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "PolymorphismFix", "Polymorphism Fix\PolymorphismFix.cppproj", "{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +34,10 @@ Global
 		{468044B7-9E2F-46A9-9AD8-56E22AD1538E}.Debug|AVR.Build.0 = Debug|AVR
 		{468044B7-9E2F-46A9-9AD8-56E22AD1538E}.Release|AVR.ActiveCfg = Release|AVR
 		{468044B7-9E2F-46A9-9AD8-56E22AD1538E}.Release|AVR.Build.0 = Release|AVR
+		{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}.Debug|AVR.ActiveCfg = Debug|AVR
+		{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}.Debug|AVR.Build.0 = Debug|AVR
+		{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}.Release|AVR.ActiveCfg = Release|AVR
+		{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

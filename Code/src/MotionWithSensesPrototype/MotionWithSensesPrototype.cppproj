@@ -164,6 +164,11 @@
       <Project>{a757db02-604a-45f4-aaa0-f6aa83aea768}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Polymorphism%2520Fix\PolymorphismFix.cppproj">
+      <Name>PolymorphismFix</Name>
+      <Project>{6cd1d5ee-430f-4eee-8ea1-38c972c1aed6}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Senses\Senses.cppproj">
       <Name>Senses</Name>
       <Project>{468044b7-9e2f-46a9-9ad8-56e22ad1538e}</Project>
