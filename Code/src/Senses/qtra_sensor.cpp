@@ -99,10 +99,11 @@ void QTRASensor::Read(unsigned int* sensorValues)
 
 void QTRASensor::EmittersOn()
 {
-	PORTD &= ~(1<<DDD7);
+	PORTD |= (1<<DDD7);
 }
 
 void QTRASensor::EmittersOff()
 {
-	PORTD |= (1<<DDD7);
+	
+	PORTD &= ~(1<<DDD7);
 }
