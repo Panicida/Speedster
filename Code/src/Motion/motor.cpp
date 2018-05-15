@@ -14,7 +14,7 @@
 Motion::Motors::Motors(MotorInfoStruct* motorInfo, unsigned char numMotors)
 {
 	this->numMotors = numMotors;
-	forward = true;
+	forward = false;
 	
 	for (int motor = 0; motor < numMotors; motor++)
 	{
