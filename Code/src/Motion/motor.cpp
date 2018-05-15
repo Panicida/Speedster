@@ -117,13 +117,13 @@ void Motion::MotorsComplex::SetTC0Speed(unsigned char speed)
 {
 	if (forward)
 	{
-		OCR0B = 0;
+		OCR0B = 255;
 		OCR0A = speed;
 	}
 	else
 	{
 		OCR0B = speed;
-		OCR0A = 0;
+		OCR0A = 255;
 	}
 }
 
