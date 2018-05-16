@@ -17,7 +17,7 @@ int main(void)
 	PORTD &= ~(1<<PORTD7);
 	
 	unsigned char sensor_pins[] = {ADC0_PIN,ADC1_PIN};
-	QTRASensor qtra_sensor(sensor_pins,2,5);
+	Senses::QTRASensor qtra_sensor(sensor_pins,2,5);
 	
     /* Replace with your application code */
     while (1) 

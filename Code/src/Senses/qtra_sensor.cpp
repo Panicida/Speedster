@@ -51,7 +51,7 @@ Senses::QTRASensor::QTRASensor(unsigned char* sensorPins, unsigned char numSenso
 	EmittersOff();
 }
 
-void Senses::QTRASensor::Read(unsigned int* sensorValues)
+void Senses::QTRASensor::ReadRaw(unsigned int* sensorValues)
 {
 	unsigned char sumplesDone = 0;
 	unsigned char currentSensor = 0;
@@ -100,12 +100,57 @@ void Senses::QTRASensor::Read(unsigned int* sensorValues)
 	DDRD = ddr;
 }
 
-void Senses::QTRASensor::EmittersOn()
+void Senses::QTRASensor::Read(unsigned int* sensorValues)
 {
-	PORTD |= (1<<DDD7);
+
+}
+
+unsigned int Senses::QTRASensor::ReadLine(unsigned int* sensorValues, , bool whiteLine)
+{
+	unsigned int result = 0;
+	unsigned int sum = 0;
+
+	Read(sensorValues);
+
+	// For loop is repeated to increase speed.
+	if (whiteLine)
+	{
+		for (int sensor = 0; sensor < numSensors; sensor++)
+		{
+			sensorValues[sensor] = 1000 - sensorValues[sensor];
+			result = sensorValues[sensor] * (sensor + 1 );
+			sum += sensorValues[sensor];
+		}
+	}
+	else
+	{
+		for (int sensor = 0; sensor < numSensors; sensor++)
+		{
+			result = sensorValues[sensor] * (sensor + 1 );
+			sum += sensorValues[sensor];
+		}
+	}
+	
+
+	result /= sum; 
+
+	return result;
 }
 
 void Senses::QTRASensor::EmittersOff()
 {
 	PORTD &= ~(1<<DDD7);
+}
+
+void Senses::QTRASensor::EmittersOn()
+{
+	PORTD |= (1<<DDD7);
+}
+
+void Senses::QTRASensor::Calibrate()
+{
+	for (int sensor = 0; sensor < numSensors; sensor++)
+	{
+		
+	}
 }
