@@ -69,7 +69,7 @@ namespace Senses
 			
 			unsigned char portMask;
 
-			unsigned short* calibratonMessures[2];
+			unsigned short* calibrationMessures[2];
 		};
 }
 
