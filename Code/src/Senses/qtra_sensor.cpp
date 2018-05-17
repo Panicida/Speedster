@@ -165,6 +165,8 @@ void Senses::QTRASensor::Calibrate()
 		unsigned char sumplesDone = 0;
 		unsigned char currentSensor = 0;
 		
+		calibrationMessures 
+		
 		// Store current state of various registers.
 		unsigned char admux = ADMUX;
 		unsigned char adcsra = ADCSRA;
