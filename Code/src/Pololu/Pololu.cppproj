@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>7.0</ProjectVersion>
     <ToolchainName>com.Atmel.AVRGCC8.CPP</ToolchainName>
-    <ProjectGuid>{468044b7-9e2f-46a9-9ad8-56e22ad1538e}</ProjectGuid>
+    <ProjectGuid>{ae26eb4e-a7bf-441b-8e59-e0c40ded15c2}</ProjectGuid>
     <avrdevice>ATmega328P</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
     <OutputType>StaticLibrary</OutputType>
@@ -14,9 +14,9 @@
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
     <AvrGccProjectExtensions>
     </AvrGccProjectExtensions>
-    <AssemblyName>Senses</AssemblyName>
-    <Name>Senses</Name>
-    <RootNamespace>Senses</RootNamespace>
+    <AssemblyName>Pololu</AssemblyName>
+    <Name>Pololu</Name>
+    <RootNamespace>Pololu</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
@@ -32,15 +32,15 @@
     <EraseKey />
     <AsfFrameworkConfig>
       <framework-data xmlns="">
-        <options />
-        <configurations />
-        <files />
-        <documentation help="" />
-        <offline-documentation help="" />
-        <dependencies>
-          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.35.1" />
-        </dependencies>
-      </framework-data>
+  <options />
+  <configurations />
+  <files />
+  <documentation help="" />
+  <offline-documentation help="" />
+  <dependencies>
+    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.35.1" />
+  </dependencies>
+</framework-data>
     </AsfFrameworkConfig>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -133,7 +133,6 @@
   <avrgcccpp.compiler.directories.IncludePaths>
     <ListValues>
       <Value>%24(PackRepoDir)\atmel\ATmega_DFP\1.2.150\include</Value>
-      <Value>../..</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
   <avrgcccpp.compiler.optimization.level>Optimize (-O1)</avrgcccpp.compiler.optimization.level>
@@ -156,19 +155,15 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="qtra_sensor.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="qtra_sensor.h">
-      <SubType>compile</SubType>
-    </Compile>
+    <Folder Include="Time" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Pololu\Pololu.cppproj">
-      <Name>Pololu</Name>
-      <Project>{ae26eb4e-a7bf-441b-8e59-e0c40ded15c2}</Project>
-      <Private>True</Private>
-    </ProjectReference>
+    <Compile Include="Time\OrangutanTime.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Time\OrangutanTime.h">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

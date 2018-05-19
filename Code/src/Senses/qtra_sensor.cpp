@@ -6,9 +6,9 @@
  */ 
 
 #include <avr/io.h>
+#include "Pololu/Time/OrangutanTime.h"
 
 #include "QTRA_Sensor.h"
-
 
 Senses::QTRASensor::QTRASensor(unsigned char* sensorPins, unsigned char numSensors, unsigned char numSamplesPerSensor)
 {
@@ -92,6 +92,12 @@ void Senses::QTRASensor::ReadRaw(unsigned int* sensorValues)
 			sensorValues[currentSensor] += ADC;
 		}
 	}
+
+	// Mean
+	for (currentSensor = 0; currentSensor < numSensors; currentSensor++)
+	{
+		sensorValues[currentSensor] /= numSensors;
+	}
 	
 	// Restore registry default values.
 	ADMUX = admux;
@@ -159,55 +165,63 @@ void Senses::QTRASensor::EmittersOn()
 
 void Senses::QTRASensor::Calibrate()
 {
-	for (int sensor = 0; sensor < numSensors; sensor++)
+	unsigned char sumplesDone = 0;
+	unsigned char currentSensor = 0;
+
+	// Store current state of various registers.
+	unsigned char admux = ADMUX;
+	unsigned char adcsra = ADCSRA;
+	unsigned char ddr = DDRD;
+	unsigned char port = PORTD;
+		
+	// Wait for any current conversion to finish.
+	while (ADCSRA & (1 << ADSC));
+		
+	// Reset values.
+	for (currentSensor = 0; currentSensor < numSensors; currentSensor++)
 	{
-		unsigned char sensorValues[numSensors];
-		unsigned char sumplesDone = 0;
-		unsigned char currentSensor = 0;
+		// Initializes minimum value to maximum.
+		calibrationMessures[currentSensor][0] = 999;
+
+		// Initializes maximum value to minimum.
+		calibrationMessures[currentSensor][1] = 0;
+	}
 		
-		calibrationMessures 
+	// Set all sensors pins to high-Z inputs
+	DDRC &= ~portMask;
+	PORTC &= ~portMask;
 		
-		// Store current state of various registers.
-		unsigned char admux = ADMUX;
-		unsigned char adcsra = ADCSRA;
-		unsigned char ddr = DDRD;
-		unsigned char port = PORTD;
-		
-		// Wait for any current conversion to finish.
-		while (ADCSRA & (1 << ADSC));
-		
-		// Reset values.
+	for (sumplesDone = 0; sumplesDone < numSamplesPerSensor * 3; sumplesDone++)
+	{
 		for (currentSensor = 0; currentSensor < numSensors; currentSensor++)
 		{
-			sensorValues[currentSensor] = 0;
-		}
-		
-		// Set all sensors pins to high-Z inputs
-		DDRC &= ~portMask;
-		PORTC &= ~portMask;
-		
-		for (sumplesDone = 0; sumplesDone < numSamplesPerSensor; sumplesDone++)
-		{
-			for (currentSensor = 0; currentSensor < numSensors; currentSensor++)
+			// Set analog input channel
+			ADMUX = (1 << REFS0) | sensorPins[currentSensor];
+				
+			// Start the conversion.
+			ADCSRA |= (1 << ADSC);
+				
+			// Wait for conversion to finish.
+			while (ADCSRA & (1 << ADSC));
+				
+			// Adjust minimum and maximum sensor values.
+			if (ADC < calibrationMessures[currentSensor][0])
 			{
-				// Set analog input channel
-				ADMUX = (1 << REFS0) | sensorPins[currentSensor];
-				
-				// Start the conversion.
-				ADCSRA |= (1 << ADSC);
-				
-				// Wait for conversion to finish.
-				while (ADCSRA & (1 << ADSC));
-				
-				// Add in the conversion result.
-				sensorValues[currentSensor] += ADC;
+				calibrationMessures[currentSensor][0] = ADC;
+			}
+
+			if (ADC > calibrationMessures[currentSensor][1])
+			{
+				calibrationMessures[currentSensor][1] = ADC;
 			}
 		}
-		
-		// Restore registry default values.
-		ADMUX = admux;
-		ADCSRA = adcsra;
-		PORTD = port;
-		DDRD = ddr;
+
+		OrangutanTime::delayMilliseconds(200);
 	}
+		
+	// Restore registry default values.
+	ADMUX = admux;
+	ADCSRA = adcsra;
+	PORTD = port;
+	DDRD = ddr;
 }

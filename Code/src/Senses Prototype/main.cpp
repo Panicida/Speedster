@@ -9,7 +9,7 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include "Senses/QTRA_Sensor.h"
-#include "OrangutanTime.h"
+#include "Pololu/Time/OrangutanTime.h"
 
 int main(void)
 {
