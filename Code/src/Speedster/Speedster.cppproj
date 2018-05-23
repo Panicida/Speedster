@@ -172,9 +172,19 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Control\Control.cppproj">
+      <Name>Control</Name>
+      <Project>{5452cfb2-b3e2-4e3b-aa3c-21edffb32fdb}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Motion\Motion.cppproj">
       <Name>Motion</Name>
       <Project>{a757db02-604a-45f4-aaa0-f6aa83aea768}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Pololu\Pololu.cppproj">
+      <Name>Pololu</Name>
+      <Project>{ae26eb4e-a7bf-441b-8e59-e0c40ded15c2}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Polymorphism%2520Fix\PolymorphismFix.cppproj">

@@ -16,6 +16,8 @@ Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Pololu", "Pololu\Pololu.cpp
 EndProject
 Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "PolymorphismFix", "Polymorphism Fix\PolymorphismFix.cppproj", "{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}"
 EndProject
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Control", "Control\Control.cppproj", "{5452CFB2-B3E2-4E3B-AA3C-21EDFFB32FDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AVR = Debug|AVR
@@ -42,6 +44,10 @@ Global
 		{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}.Debug|AVR.Build.0 = Debug|AVR
 		{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}.Release|AVR.ActiveCfg = Release|AVR
 		{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}.Release|AVR.Build.0 = Release|AVR
+		{5452CFB2-B3E2-4E3B-AA3C-21EDFFB32FDB}.Debug|AVR.ActiveCfg = Debug|AVR
+		{5452CFB2-B3E2-4E3B-AA3C-21EDFFB32FDB}.Debug|AVR.Build.0 = Debug|AVR
+		{5452CFB2-B3E2-4E3B-AA3C-21EDFFB32FDB}.Release|AVR.ActiveCfg = Release|AVR
+		{5452CFB2-B3E2-4E3B-AA3C-21EDFFB32FDB}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

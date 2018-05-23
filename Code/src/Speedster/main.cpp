@@ -9,6 +9,7 @@
 #include "Motion/motor.h"
 #include "Senses/qtra_sensor.h"
 #include "Pololu/Time/OrangutanTime.h"
+#include "Control/PidControl.h"
 
 int main(void)
 {
@@ -26,6 +27,9 @@ int main(void)
 	Motion::MotorInfoStruct motorInfoStruct[] = { motorInfoStructLeft , motorInfoStructRight };
 	Motion::MotorsComplex motorControl(motorInfoStruct, 2);
 	
+	// Create control
+	Control::PidControl control(2000);
+	
 	/*************************/
 	/* OTHER INITIALIZATIONS */
 	/*************************/
@@ -41,9 +45,12 @@ int main(void)
 	while (1)
 	{
 		unsigned int linePosition;
+		unsigned char speed[] = { 0, 0 };
+		int speedCorrection = 0;
+
 		lineSensor.ReadLine(&linePosition, false);
 		
-		unsigned char speed[] = { 0, 0 };
+		speedCorrection = control.ProportionalIntegral(linePosition);
 		
 		motorControl.SetSpeed(speed);
 	}
