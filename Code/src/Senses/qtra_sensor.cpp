@@ -6,9 +6,9 @@
  */ 
 
 #include <avr/io.h>
+#include "Pololu/Time/OrangutanTime.h"
 
 #include "QTRA_Sensor.h"
-
 
 Senses::QTRASensor::QTRASensor(unsigned char* sensorPins, unsigned char numSensors, unsigned char numSamplesPerSensor)
 {
@@ -51,7 +51,7 @@ Senses::QTRASensor::QTRASensor(unsigned char* sensorPins, unsigned char numSenso
 	EmittersOff();
 }
 
-void Senses::QTRASensor::Read(unsigned int* sensorValues)
+void Senses::QTRASensor::ReadRaw(unsigned int* sensorValues)
 {
 	unsigned char sumplesDone = 0;
 	unsigned char currentSensor = 0;
@@ -92,6 +92,12 @@ void Senses::QTRASensor::Read(unsigned int* sensorValues)
 			sensorValues[currentSensor] += ADC;
 		}
 	}
+
+	// Mean
+	for (currentSensor = 0; currentSensor < numSensors; currentSensor++)
+	{
+		sensorValues[currentSensor] /= numSensors;
+	}
 	
 	// Restore registry default values.
 	ADMUX = admux;
@@ -100,12 +106,122 @@ void Senses::QTRASensor::Read(unsigned int* sensorValues)
 	DDRD = ddr;
 }
 
-void Senses::QTRASensor::EmittersOn()
+void Senses::QTRASensor::Read(unsigned int* sensorValues)
 {
-	PORTD |= (1<<DDD7);
+	unsigned char sensor = 0;
+	
+	ReadRaw(sensorValues);
+	
+	for (sensor = 0; sensor < numSensors; sensor++)
+	{
+		// old range: [A-B]
+		// new range: [C-D]
+		// Y = (X-A)/(B-A) * (D-C) + C
+		sensorValues[sensor] = ((sensorValues[sensor] - calibrationMessures[sensor][0]) / (calibrationMessures[sensor][1] - calibrationMessures[sensor][0])) * 999;
+	}
+}
+
+unsigned int Senses::QTRASensor::ReadLine(unsigned int* sensorValues, bool whiteLine)
+{
+	unsigned int result = 0;
+	unsigned int sum = 0;
+	unsigned char sensor;
+
+	Read(sensorValues);
+
+	// For loop is repeated to increase speed.
+	if (whiteLine)
+	{
+		for (sensor = 0; sensor < numSensors; sensor++)
+		{
+			sensorValues[sensor] = 1000 - sensorValues[sensor];
+			result = sensorValues[sensor] * (sensor + 1 );
+			sum += sensorValues[sensor];
+		}
+	}
+	else
+	{
+		for (sensor = 0; sensor < numSensors; sensor++)
+		{
+			result = sensorValues[sensor] * (sensor + 1 );
+			sum += sensorValues[sensor];
+		}
+	}
+	
+	result /= sum; 
+
+	return result;
 }
 
 void Senses::QTRASensor::EmittersOff()
 {
 	PORTD &= ~(1<<DDD7);
+}
+
+void Senses::QTRASensor::EmittersOn()
+{
+	PORTD |= (1<<DDD7);
+}
+
+void Senses::QTRASensor::Calibrate()
+{
+	unsigned char sumplesDone = 0;
+	unsigned char currentSensor = 0;
+
+	// Store current state of various registers.
+	unsigned char admux = ADMUX;
+	unsigned char adcsra = ADCSRA;
+	unsigned char ddr = DDRD;
+	unsigned char port = PORTD;
+		
+	// Wait for any current conversion to finish.
+	while (ADCSRA & (1 << ADSC));
+		
+	// Reset values.
+	for (currentSensor = 0; currentSensor < numSensors; currentSensor++)
+	{
+		// Initializes minimum value to maximum.
+		calibrationMessures[currentSensor][0] = 999;
+
+		// Initializes maximum value to minimum.
+		calibrationMessures[currentSensor][1] = 0;
+	}
+		
+	// Set all sensors pins to high-Z inputs
+	DDRC &= ~portMask;
+	PORTC &= ~portMask;
+		
+	for (sumplesDone = 0; sumplesDone < numSamplesPerSensor * 3; sumplesDone++)
+	{
+		for (currentSensor = 0; currentSensor < numSensors; currentSensor++)
+		{
+			// Set analog input channel
+			ADMUX = (1 << REFS0) | sensorPins[currentSensor];
+				
+			// Start the conversion.
+			ADCSRA |= (1 << ADSC);
+				
+			// Wait for conversion to finish.
+			while (ADCSRA & (1 << ADSC));
+				
+			// Adjust minimum and maximum sensor values.
+			if (ADC < calibrationMessures[currentSensor][0])
+			{
+				calibrationMessures[currentSensor][0] = ADC;
+			}
+
+			if (ADC > calibrationMessures[currentSensor][1])
+			{
+				calibrationMessures[currentSensor][1] = ADC;
+			}
+		}
+
+		OrangutanTime::delayMilliseconds(200);
+	}
+		
+	// Restore registry default values.
+	ADMUX = admux;
+	ADCSRA = adcsra;
+	PORTD = port;
+	DDRD = ddr;
 }

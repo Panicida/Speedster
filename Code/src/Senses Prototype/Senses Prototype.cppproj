@@ -171,14 +171,13 @@
     <Compile Include="main.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="OrangutanTime.cpp">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="OrangutanTime.h">
-      <SubType>compile</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Pololu\Pololu.cppproj">
+      <Name>Pololu</Name>
+      <Project>{ae26eb4e-a7bf-441b-8e59-e0c40ded15c2}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Senses\Senses.cppproj">
       <Name>Senses</Name>
       <Project>{468044b7-9e2f-46a9-9ad8-56e22ad1538e}</Project>
