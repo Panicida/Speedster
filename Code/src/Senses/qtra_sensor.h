@@ -30,12 +30,15 @@ namespace Senses
 			QTRASensor(unsigned char* sensorPins, unsigned char numSensors, unsigned char numSamplesPerSensor);
 			
 			// Read the sensors value into an array.
-			void Read(unsigned int* sensorValues);
+			void ReadRaw(unsigned int* sensorValues);
 			
+			// Read the sensors value into an array. Map each read to range [0-999]. It requires the sensros to be calibrated first to work properly.
+			void Read(unsigned int* sensorValues);
+
 			// Read the sensors value and returns a value representing
 			// relative position of the sensor from the line: to the left,
 			// centered or to the right.
-			unsigned int ReadLine(unsigned int* sensorValues, bool whiteLine = false);
+			unsigned int ReadLine(unsigned int* sensorValues, bool whiteLine);
 			
 			// Turn off the emitters pin.
 			void EmittersOff();
@@ -65,6 +68,8 @@ namespace Senses
 			unsigned char sensorPins[QTRA_MAX_SENSORS];
 			
 			unsigned char portMask;
+
+			unsigned short* calibrationMessures[2];
 		};
 }
 
