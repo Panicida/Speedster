@@ -6,22 +6,46 @@
  */ 
 
 #include <avr/io.h>
-
-#define F_CPU 20000000 // AVR clock frequency in Hz, used by util/delay.h
-#include <util/delay.h>
-
-#include "configuration.h"
+#include "Motion/motor.h"
+#include "Senses/qtra_sensor.h"
+#include "Pololu/Time/OrangutanTime.h"
 
 int main(void)
 {
-	DDRD |= (1<<DDD7) | (1<<DDD1); // set LED pin PD1 to output
-	PORTD |= (1<<PORTD7); // drive PD1 high
+	/*************************/
+	/* INITIALIZES VARIABLES */
+	/*************************/
+	// Create line sensor.
+	unsigned char qtraSensorPins[] = { ADC3_PIN, ADC4_PIN, ADC5_PIN, ADC6_PIN };
+	Senses::QTRASensor lineSensor(qtraSensorPins, 4, 5);
 	
-	unsigned char line_sensor_pins[] = {ADC2_PIN,ADC3_PIN,ADC4_PIN,ADC5_PIN};
-	QTRASensor line_qtra_sensor(line_sensor_pins,4,5);
+	// Create motor control.
+	Motion::MotorInfoStruct motorInfoStructLeft, motorInfoStructRight;
+	Motion::Motors::SetMotorInfo(&motorInfoStructLeft, Motion::Left, Motion::TC0);
+	Motion::Motors::SetMotorInfo(&motorInfoStructRight, Motion::Right, Motion::TC2);
+	Motion::MotorInfoStruct motorInfoStruct[] = { motorInfoStructLeft , motorInfoStructRight };
+	Motion::MotorsComplex motorControl(motorInfoStruct, 2);
 	
+	/*************************/
+	/* OTHER INITIALIZATIONS */
+	/*************************/
+	// Turn on the sensors light.
+	lineSensor.EmittersOn();
+	OrangutanTime::delayMilliseconds(500);
+	lineSensor.Calibrate();
+	OrangutanTime::delayMilliseconds(500);
+	
+	/**************/
+	/* MAIN LOGIC */
+	/**************/
 	while (1)
 	{
+		unsigned int linePosition;
+		lineSensor.ReadLine(&linePosition, false);
+		
+		unsigned char speed[] = { 0, 0 };
+		
+		motorControl.SetSpeed(speed);
 	}
 }
 

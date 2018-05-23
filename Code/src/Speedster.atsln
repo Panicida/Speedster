@@ -12,6 +12,10 @@ Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Senses", "Senses\Senses.cpp
 EndProject
 Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Motion", "Motion\Motion.cppproj", "{A757DB02-604A-45F4-AAA0-F6AA83AEA768}"
 EndProject
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Pololu", "Pololu\Pololu.cppproj", "{AE26EB4E-A7BF-441B-8E59-E0C40DED15C2}"
+EndProject
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "PolymorphismFix", "Polymorphism Fix\PolymorphismFix.cppproj", "{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AVR = Debug|AVR
@@ -30,6 +34,14 @@ Global
 		{A757DB02-604A-45F4-AAA0-F6AA83AEA768}.Debug|AVR.Build.0 = Debug|AVR
 		{A757DB02-604A-45F4-AAA0-F6AA83AEA768}.Release|AVR.ActiveCfg = Release|AVR
 		{A757DB02-604A-45F4-AAA0-F6AA83AEA768}.Release|AVR.Build.0 = Release|AVR
+		{AE26EB4E-A7BF-441B-8E59-E0C40DED15C2}.Debug|AVR.ActiveCfg = Debug|AVR
+		{AE26EB4E-A7BF-441B-8E59-E0C40DED15C2}.Debug|AVR.Build.0 = Debug|AVR
+		{AE26EB4E-A7BF-441B-8E59-E0C40DED15C2}.Release|AVR.ActiveCfg = Release|AVR
+		{AE26EB4E-A7BF-441B-8E59-E0C40DED15C2}.Release|AVR.Build.0 = Release|AVR
+		{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}.Debug|AVR.ActiveCfg = Debug|AVR
+		{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}.Debug|AVR.Build.0 = Debug|AVR
+		{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}.Release|AVR.ActiveCfg = Release|AVR
+		{6CD1D5EE-430F-4EEE-8EA1-38C972C1AED6}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

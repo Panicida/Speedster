@@ -167,9 +167,6 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="configuration.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="main.cpp">
       <SubType>compile</SubType>
     </Compile>
@@ -178,6 +175,11 @@
     <ProjectReference Include="..\Motion\Motion.cppproj">
       <Name>Motion</Name>
       <Project>{a757db02-604a-45f4-aaa0-f6aa83aea768}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Polymorphism%2520Fix\PolymorphismFix.cppproj">
+      <Name>PolymorphismFix</Name>
+      <Project>{6cd1d5ee-430f-4eee-8ea1-38c972c1aed6}</Project>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Senses\Senses.cppproj">
