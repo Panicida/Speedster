@@ -54,7 +54,7 @@ namespace Motion
 			
 			// Sets the motors' speed.
 			// speed: array with the desired speed for each motor. Order has to match constructor.
-			void SetSpeed(MotorSpeedStruct* speed);
+			void SetSpeed(unsigned char* speed);
 			
 			// Sets the motors' direction.
 			// direction: (true = forward, false = reversed) array with the desired direction for each motor. Order has to match constructor.
@@ -76,10 +76,12 @@ namespace Motion
 			
 		protected:
 			// Number of motors.
-			unsigned char numMotors;
+			unsigned char _numMotors;
+			
+			MotorInfoStruct* _motorInfo;
 			
 			// Whether the motor should run forward or not.
-			bool forward;
+			bool _forward;
 	};
 	
 	class MotorsComplex : public Motors

@@ -13,12 +13,13 @@
 //////////////
 Motion::Motors::Motors(MotorInfoStruct* motorInfo, unsigned char numMotors)
 {
-	this->numMotors = numMotors;
-	forward = false;
+	_numMotors = numMotors;
+	_motorInfo = motorInfo;
+	_forward = false;
 	
-	for (int motor = 0; motor < numMotors; motor++)
+	for (int motor = 0; motor < _numMotors; motor++)
 	{
-		switch (motorInfo[motor].pwmPin)
+		switch (_motorInfo[motor].pwmPin)
 		{
 			case TC0 :
 				InitializeTC0();
@@ -78,20 +79,20 @@ void Motion::Motors::InitializeTC2()
 	TCCR2B |= (1 << CS21);
 }
 
-void Motion::Motors::SetSpeed(MotorSpeedStruct* speed)
+void Motion::Motors::SetSpeed(unsigned char* speed)
 {
-	for (int motor = 0; motor < numMotors; motor++)
+	for (int motor = 0; motor < _numMotors; motor++)
 	{
-		switch (speed[motor].pwmPin)
+		switch (_motorInfo[motor].pwmPin)
 		{
 			case TC0 :
-				SetTC0Speed(speed[motor].speed);
+				SetTC0Speed(speed[motor]);
 				break;
 			case TC1 :
-				SetTC1Speed(speed[motor].speed);
+				SetTC1Speed(speed[motor]);
 				break;
 			case TC2 :
-				SetTC2Speed(speed[motor].speed);
+				SetTC2Speed(speed[motor]);
 				break;
 		}
 	}
@@ -115,7 +116,7 @@ Motion::MotorsComplex::MotorsComplex(MotorInfoStruct* motorInfo, unsigned char n
 
 void Motion::MotorsComplex::SetTC0Speed(unsigned char speed)
 {
-	if (forward)
+	if (_forward)
 	{
 		OCR0B = 255;
 		OCR0A = speed;
@@ -134,12 +135,21 @@ void Motion::MotorsComplex::SetTC1Speed(unsigned char speed)
 
 void Motion::MotorsComplex::SetTC2Speed(unsigned char speed)
 {
-	
+	if (_forward)
+	{
+		OCR2B = 255;
+		OCR2A = speed;
+	}
+	else
+	{
+		OCR2B = speed;
+		OCR2A = 255;
+	}
 }
 
 void Motion::MotorsComplex::SetDirection(bool direction)
 {
-	forward = direction;
+	_forward = direction;
 }
 
 
