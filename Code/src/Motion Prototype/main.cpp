@@ -8,30 +8,53 @@
 #include <avr/io.h>
 #include "Motion/motor.h"
 
+// Comment out one of the following to select test mode
+#define TEST_TC0
+//#define TEST_TC1
+//#define TEST_TC2
+//#define TEST_TC0_AND_TC2
+
+// Comment out to move backwards
+#define FORWARD
+
+#define SPEED 100
+
 int main(void)
 {
-	//struct Motion::MotorInfoStruct leftMotorInfo;
-	struct Motion::MotorInfoStruct rightMotorInfo;
+	#if defined TEST_TC0
+		struct Motion::MotorInfoStruct rightMotorInfo;
+		Motion::Motors::SetMotorInfo(&rightMotorInfo, Motion::Right, Motion::TC0);
+		struct Motion::MotorInfoStruct motorsInfo[] = { rightMotorInfo };
+		Motion::MotorsComplex motors(motorsInfo, 1);
+	#elif defined TEST_TC1
+		struct Motion::MotorInfoStruct rightMotorInfo;
+		Motion::Motors::SetMotorInfo(&rightMotorInfo, Motion::Right, Motion::TC1);
+		struct Motion::MotorInfoStruct motorsInfo[] = { rightMotorInfo };
+		Motion::MotorsComplex motors(motorsInfo, 1);
+	#elif defined TEST_TC2
+		struct Motion::MotorInfoStruct rightMotorInfo;
+		Motion::Motors::SetMotorInfo(&rightMotorInfo, Motion::Right, Motion::TC2);
+		struct Motion::MotorInfoStruct motorsInfo[] = { rightMotorInfo };
+		Motion::MotorsComplex motors(motorsInfo, 1);
+	#elif TEST_TC0_AND_TC2
+		struct Motion::MotorInfoStruct rightMotorInfo, leftMotorInfo;
+		Motion::Motors::SetMotorInfo(&rightMotorInfo, Motion::Right, Motion::TC0);
+		Motion::Motors::SetMotorInfo(&leftMotorInfo, Motion::Left, Motion::TC2);
+		struct Motion::MotorInfoStruct motorsInfo[] = { rightMotorInfo, leftMotorInfo };
+		Motion::MotorsComplex motors(motorsInfo, 2);
+	#endif
 	
-	//Motion::Motors::SetMotorInfo(&leftMotorInfo, Motion::Left, Motion::TC0);
-	Motion::Motors::SetMotorInfo(&rightMotorInfo, Motion::Left, Motion::TC0);
-	//Motion::Motors::SetMotorInfo(&leftMotorInfo, Motion::Right, Motion::TC2);
-	//struct Motion::MotorInfoStruct motorsInfo[] = { leftMotorInfo };
-	struct Motion::MotorInfoStruct motorsInfo[] = { rightMotorInfo };
-	//struct Motion::MotorInfoStruct motorsInfo[] = { leftMotorInfo, rightMotorInfo };
+	#if defined FORWARD
+		motors.SetDirection(true);
+	#else
+		motors.SetDirection(false);
+	#endif
 	
-	Motion::MotorsComplex motors(motorsInfo, 1);
-	
-	motors.SetDirection(false);
+	unsigned char speed[] = { SPEED, SPEED };
+	motors.SetSpeed(speed);
 	
     while (1) 
     {
-		// For some reason this line break the program.
-		//Read(&speed);
-		Motion::MotorSpeedStruct motorSpeed;
-		motorSpeed.speed = 50;
-		motorSpeed.pwmPin = Motion::TC0;
-		motors.SetSpeed(&motorSpeed);
     }
 }
 
