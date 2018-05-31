@@ -16,22 +16,20 @@ int main(void)
 	Senses::QTRASensor pot(potPin, 1, 1);
 	
 	// Create motor control for PWM1
-	Motion::MotorInfoStruct motorInfoStruct;
-	Motion::Motors::SetMotorInfo(&motorInfoStruct, Motion::Left, Motion::TC0);
-	
-	Motion::MotorsComplex motor(&motorInfoStruct, 1);
+	Motion::MotorPosition motorPosition = Motion::Left;
+	Motion::MotorsComplex motor(&motorPosition, 1);
 	
 	pot.EmittersOn();
     while (1) 
     {
-		unsigned int speed;
-		pot.Read(&speed);
+		unsigned int potValue = 0;
+		int speed = 0;
 		
-		Motion::MotorSpeedStruct speedStruct;
-		speedStruct.pwmPin = Motion::TC0;
-		speedStruct.speed = speed;
+		pot.Read(&potValue);
 		
-		motor.SetSpeed(&speedStruct);
+		speed = (int)potValue;
+		
+		motor.SetSpeed(&speed);
     }
 }
 
