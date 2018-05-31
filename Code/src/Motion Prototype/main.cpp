@@ -5,33 +5,54 @@
  * Author : Javier Rodriguez Posada
  */ 
 
+#define F_CPU 20000000UL
 #include <avr/io.h>
+#include <util/delay.h>
 #include "Motion/motor.h"
+
+// Comment out one of the following to select test mode
+//#define TEST_TC0
+//#define TEST_TC1
+//#define TEST_TC2
+#define TEST_TC0_AND_TC2
+//#define SPEED_TEST
+
+#define SPEED 150
+#define RUN_TIME 2000
 
 int main(void)
 {
-	//struct Motion::MotorInfoStruct leftMotorInfo;
-	struct Motion::MotorInfoStruct rightMotorInfo;
+	#if defined TEST_TC0
+		Motion::MotorPosition motorsPosition[] = { Motion::Right };
+		Motion::MotorsComplex motors(motorsPosition, 1);
+	#elif defined TEST_TC1
+		Motion::MotorPosition motorsPosition[] = { Motion::Right };
+		Motion::MotorsComplex motors(motorsPosition, 1);
+	#elif defined TEST_TC2
+		Motion::MotorPosition motorsPosition[] = { Motion::Left };
+		Motion::MotorsComplex motors(motorsPosition, 1);
+	#else
+		Motion::MotorPosition motorsPosition[] = { Motion::Right, Motion::Left };
+		Motion::MotorsComplex motors(motorsPosition, 2);
+	#endif
 	
-	//Motion::Motors::SetMotorInfo(&leftMotorInfo, Motion::Left, Motion::TC0);
-	Motion::Motors::SetMotorInfo(&rightMotorInfo, Motion::Left, Motion::TC0);
-	//Motion::Motors::SetMotorInfo(&leftMotorInfo, Motion::Right, Motion::TC2);
-	//struct Motion::MotorInfoStruct motorsInfo[] = { leftMotorInfo };
-	struct Motion::MotorInfoStruct motorsInfo[] = { rightMotorInfo };
-	//struct Motion::MotorInfoStruct motorsInfo[] = { leftMotorInfo, rightMotorInfo };
+	int speed[] = { SPEED, SPEED };
+		
+	#ifdef SPEED_TEST
+		_delay_ms(RUN_TIME);
+	#endif
 	
-	Motion::MotorsComplex motors(motorsInfo, 1);
+	motors.SetSpeed(speed);
 	
-	motors.SetDirection(false);
+	#ifdef SPEED_TEST
+		_delay_ms(RUN_TIME);
+		speed[0] = 0;
+		speed[1] = 0;
+		motors.SetSpeed(speed);
+	#endif
 	
     while (1) 
     {
-		// For some reason this line break the program.
-		//Read(&speed);
-		Motion::MotorSpeedStruct motorSpeed;
-		motorSpeed.speed = 50;
-		motorSpeed.pwmPin = Motion::TC0;
-		motors.SetSpeed(&motorSpeed);
     }
 }
 

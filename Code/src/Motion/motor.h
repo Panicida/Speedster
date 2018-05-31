@@ -50,38 +50,35 @@ namespace Motion
 	class Motors
 	{
 		public :
-			Motors(MotorInfoStruct* motorInfo, unsigned char numMotors);
-			
+			Motors(MotorPosition* motorPosition, unsigned char numMotors);
+
 			// Sets the motors' speed.
 			// speed: array with the desired speed for each motor. Order has to match constructor.
-			void SetSpeed(unsigned char* speed);
-			
-			// Sets the motors' direction.
-			// direction: (true = forward, false = reversed) array with the desired direction for each motor. Order has to match constructor.
-			virtual void SetDirection(bool direction) = 0;
+			void SetSpeed(int* speed);
 			
 			// Fill a given MotorInfo struct.
 			static void SetMotorInfo(MotorInfoStruct* motorInfo, MotorPosition motorPosition, PWMPin pwmPin);
 		
 		private:
+			// Internal function to set the motors' speed.
+			// speed: array with the desired speed for each motor. Order has to match constructor.
+			bool CapSpeed(int* speed);
+
 			// Initializes the corresponding timers.
 			void InitializeTC0();
 			void InitializeTC1();
 			void InitializeTC2();
 			
 			// Set speed into the corresponding pin.
-			virtual void SetTC0Speed(unsigned char speed) = 0;
-			virtual void SetTC1Speed(unsigned char speed) = 0;
-			virtual void SetTC2Speed(unsigned char speed) = 0;
+			virtual void SetTC0Speed(unsigned char speed, bool forward) = 0;
+			virtual void SetTC1Speed(unsigned char speed, bool forward) = 0;
+			virtual void SetTC2Speed(unsigned char speed, bool forward) = 0;
 			
 		protected:
 			// Number of motors.
 			unsigned char _numMotors;
 			
 			MotorInfoStruct* _motorInfo;
-			
-			// Whether the motor should run forward or not.
-			bool _forward;
 	};
 	
 	class MotorsComplex : public Motors
@@ -89,16 +86,12 @@ namespace Motion
 		public:
 			// Constructor.
 			// motorsInfo has to be an array of size numMotors.
-			MotorsComplex(MotorInfoStruct* motorInfo, unsigned char numMotors);
-			
-			// Sets the motors' direction.
-			// direction: (true = forward, false = reversed) array with the desired direction for each motor. Order has to match constructor.
-			void SetDirection(bool direction);
+			MotorsComplex(MotorPosition* motorInfo, unsigned char numMotors);
 		private:
 			// Set speed into the corresponding pin.
-			void SetTC0Speed(unsigned char speed);
-			void SetTC1Speed(unsigned char speed);
-			void SetTC2Speed(unsigned char speed);
+			void SetTC0Speed(unsigned char speed, bool forward);
+			void SetTC1Speed(unsigned char speed, bool forward);
+			void SetTC2Speed(unsigned char speed, bool forward);
 	};
 }
 
