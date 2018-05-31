@@ -14,11 +14,8 @@
 //#define TEST_TC0
 //#define TEST_TC1
 //#define TEST_TC2
-//#define TEST_TC0_AND_TC2
-#define SPEED_TEST
-
-// Comment out to move backwards
-#define FORWARD
+#define TEST_TC0_AND_TC2
+//#define SPEED_TEST
 
 #define SPEED 150
 #define RUN_TIME 2000
@@ -26,35 +23,20 @@
 int main(void)
 {
 	#if defined TEST_TC0
-		struct Motion::MotorInfoStruct rightMotorInfo;
-		Motion::Motors::SetMotorInfo(&rightMotorInfo, Motion::Right, Motion::TC0);
-		struct Motion::MotorInfoStruct motorsInfo[] = { rightMotorInfo };
-		Motion::MotorsComplex motors(motorsInfo, 1);
+		Motion::MotorPosition motorsPosition[] = { Motion::Right };
+		Motion::MotorsComplex motors(motorsPosition, 1);
 	#elif defined TEST_TC1
-		struct Motion::MotorInfoStruct rightMotorInfo;
-		Motion::Motors::SetMotorInfo(&rightMotorInfo, Motion::Right, Motion::TC1);
-		struct Motion::MotorInfoStruct motorsInfo[] = { rightMotorInfo };
-		Motion::MotorsComplex motors(motorsInfo, 1);
+		Motion::MotorPosition motorsPosition[] = { Motion::Right };
+		Motion::MotorsComplex motors(motorsPosition, 1);
 	#elif defined TEST_TC2
-		struct Motion::MotorInfoStruct rightMotorInfo;
-		Motion::Motors::SetMotorInfo(&rightMotorInfo, Motion::Left, Motion::TC2);
-		struct Motion::MotorInfoStruct motorsInfo[] = { rightMotorInfo };
-		Motion::MotorsComplex motors(motorsInfo, 1);
+		Motion::MotorPosition motorsPosition[] = { Motion::Left };
+		Motion::MotorsComplex motors(motorsPosition, 1);
 	#else
-		struct Motion::MotorInfoStruct rightMotorInfo, leftMotorInfo;
-		Motion::Motors::SetMotorInfo(&rightMotorInfo, Motion::Right, Motion::TC0);
-		Motion::Motors::SetMotorInfo(&leftMotorInfo, Motion::Left, Motion::TC2);
-		struct Motion::MotorInfoStruct motorsInfo[] = { rightMotorInfo, leftMotorInfo };
-		Motion::MotorsComplex motors(motorsInfo, 2);
+		Motion::MotorPosition motorsPosition[] = { Motion::Right, Motion::Left };
+		Motion::MotorsComplex motors(motorsPosition, 2);
 	#endif
 	
-	#if defined FORWARD
-		motors.SetDirection(true);
-	#else
-		motors.SetDirection(false);
-	#endif
-	
-	unsigned char speed[] = { SPEED, SPEED };
+	int speed[] = { SPEED, SPEED };
 		
 	#ifdef SPEED_TEST
 		_delay_ms(RUN_TIME);
