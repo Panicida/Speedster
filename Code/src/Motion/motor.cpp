@@ -15,7 +15,7 @@ Motion::Motors::Motors(MotorInfoStruct* motorInfo, unsigned char numMotors)
 {
 	_numMotors = numMotors;
 	_motorInfo = motorInfo;
-	_forward = false;
+	_forward = true;
 	
 	for (int motor = 0; motor < _numMotors; motor++)
 	{
@@ -45,8 +45,8 @@ void Motion::Motors::InitializeTC0()
 	TCCR0B = 0;
 	TCCR0A |= (1 << WGM00);
 	
-	// Set PWM to non inverted.
-	TCCR0A |= (1 << COM0A1) | (1 << COM0B1);
+	// Set PWM to inverted.
+	TCCR0A |= (1 << COM0A1) | (1 << COM0A0) | (1 << COM0B1) | (1 << COM0B0);
 	
 	// Set prescalar to (¡8
 	TCCR0B |= (1 << CS01);
@@ -72,8 +72,8 @@ void Motion::Motors::InitializeTC2()
 	TCCR2B = 0;
 	TCCR2A |= (1 << WGM20);
 	
-	// Set PWM to non inverted.
-	TCCR2A |= (1 << COM2A1) | (1 << COM2B1);
+	// Set PWM to inverted.
+	TCCR2A |= (1 << COM2A1) | (1 << COM2A0) | (1 << COM2B1) | (1 << COM2B0);
 	
 	// Set prescalar to (¡8
 	TCCR2B |= (1 << CS21);
@@ -118,13 +118,13 @@ void Motion::MotorsComplex::SetTC0Speed(unsigned char speed)
 {
 	if (_forward)
 	{
-		OCR0B = 255;
+		OCR0B = 0;
 		OCR0A = speed;
 	}
 	else
 	{
 		OCR0B = speed;
-		OCR0A = 255;
+		OCR0A = 0;
 	}
 }
 
@@ -137,13 +137,13 @@ void Motion::MotorsComplex::SetTC2Speed(unsigned char speed)
 {
 	if (_forward)
 	{
-		OCR2B = 255;
+		OCR2B = 0;
 		OCR2A = speed;
 	}
 	else
 	{
 		OCR2B = speed;
-		OCR2A = 255;
+		OCR2A = 0;
 	}
 }
 
