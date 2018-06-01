@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>7.0</ProjectVersion>
     <ToolchainName>com.Atmel.AVRGCC8.CPP</ToolchainName>
-    <ProjectGuid>{a757db02-604a-45f4-aaa0-f6aa83aea768}</ProjectGuid>
+    <ProjectGuid>{421837f5-ff86-4d28-84a2-0689308d0282}</ProjectGuid>
     <avrdevice>ATmega328P</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
     <OutputType>StaticLibrary</OutputType>
@@ -14,9 +14,9 @@
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
     <AvrGccProjectExtensions>
     </AvrGccProjectExtensions>
-    <AssemblyName>Motion</AssemblyName>
-    <Name>Motion</Name>
-    <RootNamespace>Motion</RootNamespace>
+    <AssemblyName>Communication</AssemblyName>
+    <Name>Communication</Name>
+    <RootNamespace>Communication</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
@@ -155,10 +155,10 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="motor.cpp">
+    <Compile Include="Serial.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="motor.h">
+    <Compile Include="Serial.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
