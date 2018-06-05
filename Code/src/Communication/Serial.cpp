@@ -10,11 +10,23 @@
 #endif
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
+#include <stddef.h>
 #include "Serial.h"
+
+#define _array_lenght(type) ((char *)(&type+1)-(char*)(&type))
+
+
+// Initializes static variables
+unsigned int Communication::Serial::_dataSize = 0;
+unsigned int Communication::Serial::_bytePosition = 0;
+unsigned char* Communication::Serial::_sendBuffer = NULL;
 
 Communication::Serial::Serial(unsigned int baudrate)
 {
 	unsigned long ubrr = 0;
+	
+	cli();
 	
 	// Calculate UBRRn value for the desired baudrate
 	ubrr = (F_CPU / (16UL * baudrate)) - 1;
@@ -28,13 +40,54 @@ Communication::Serial::Serial(unsigned int baudrate)
 	
 	// Enable receiver and transmitter
 	UCSR0B = (1<<RXEN0)|(1<<TXEN0);
+	
+	sei();
 }
 
-void Communication::Serial::Send(unsigned char data)
+void Communication::Serial::Send(unsigned char* data)
 {
-	// Wait for empty transmit buffer
-	while ( !( UCSR0A & (1<<UDRE0)) );
+	// Wait for the previous message to finish sending.
+	while(!Communication::Serial::IsBufferEmpty());
 	
+	// Load message into the send buffer.
+	Communication::Serial::_dataSize = _array_lenght(data);
+	Communication::Serial::_bytePosition = 0;
+	Communication::Serial::_sendBuffer = data;
+	
+	Communication::Serial::EnableTxInterrupt();
+}
+
+void Communication::Serial::EnableTxInterrupt()
+{
+	UCSR0B |= (1 << UDRIE0);
+}
+
+void Communication::Serial::DisableTxInterrupt()
+{
+	UCSR0B &= ~(1 << UDRIE0);
+}
+
+void Communication::Serial::SendWithInterrupts()
+{
 	// Put data into buffer, sends the data
-	UDR0 = data;
+	if (Communication::Serial::_bytePosition < Communication::Serial::_dataSize)
+	{
+		UDR0 = Communication::Serial::_sendBuffer[Communication::Serial::_bytePosition];
+		Communication::Serial::_bytePosition++;
+	}
+	else
+	{
+		Communication::Serial::DisableTxInterrupt();
+		Communication::Serial::_sendBuffer = NULL;
+	}
+}
+
+bool Communication::Serial::IsBufferEmpty()
+{
+	return Communication::Serial::_sendBuffer == NULL;
+}
+
+ISR(USART_UDRE_vect)
+{
+	Communication::Serial::SendWithInterrupts();
 }
