@@ -8,27 +8,30 @@
 #define F_CPU 20000000UL
 #include <avr/io.h>
 #include <util/delay.h>
+#include <stdio.h>
 #include "Communication/Serial.h"
-#include "Communication/SerialData.h"
 
 #define BAUDRATE 9600
 #define WAIT_TIME 1000
+#define BUFFER_SIZE 256
 
 int main(void)
 {
-	Communication::Serial serial(BAUDRATE);
+	Communication::Serial serial(BAUDRATE, BUFFER_SIZE);
 	
-	Communication::SerialData data("water_my_friend");
+	int number = 5000;
+	unsigned int dataSize = 0;
+	char aux[BUFFER_SIZE];
+	dataSize = sprintf(aux,"Be water my friend: %d", number);
 	
 	for (int i=0;i<10;i++)
 	{
-		serial.Send(data.Data);
+		serial.Send(aux,dataSize);
 		_delay_ms(100);
 	}
-	data.FreeMemory();
 	
     /* Replace with your application code */
-    while (1) 
+    while (1)
     {
 		
     }

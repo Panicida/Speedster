@@ -11,22 +11,23 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include <stddef.h>
+#include <string.h>
 #include "Serial.h"
 
-#define _array_lenght(type) ((char *)(&type+1)-(char*)(&type))
-
-
 // Initializes static variables
-unsigned int Communication::Serial::_dataSize = 0;
-unsigned int Communication::Serial::_bytePosition = 0;
-unsigned char* Communication::Serial::_sendBuffer = NULL;
+int Communication::Serial::_dataSize = 0;
+int Communication::Serial::_bytePosition = 0;
+char* Communication::Serial::_sendBuffer = NULL;
 
-Communication::Serial::Serial(unsigned int baudrate)
+Communication::Serial::Serial(unsigned int baudrate, int maxDataSize)
 {
-	unsigned long ubrr = 0;
-	
+	InitializesRegistries(baudrate);
+}
+
+void Communication::Serial::InitializesRegistries(unsigned int baudrate)
+{
 	cli();
+	unsigned long ubrr = 0;
 	
 	// Calculate UBRRn value for the desired baudrate
 	ubrr = (F_CPU / (16UL * baudrate)) - 1;
@@ -44,13 +45,13 @@ Communication::Serial::Serial(unsigned int baudrate)
 	sei();
 }
 
-void Communication::Serial::Send(unsigned char* data)
+void Communication::Serial::Send(char* data, int dataSize)
 {
 	// Wait for the previous message to finish sending.
 	while(!Communication::Serial::IsBufferEmpty());
 	
 	// Load message into the send buffer.
-	Communication::Serial::_dataSize = _array_lenght(data);
+	Communication::Serial::_dataSize = dataSize;
 	Communication::Serial::_bytePosition = 0;
 	Communication::Serial::_sendBuffer = data;
 	

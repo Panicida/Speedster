@@ -16,17 +16,18 @@ namespace Communication
 	class Serial
 	{
 		public:
-			Serial(unsigned int baudrate);
-			static void Send(unsigned char* data);
+			Serial(unsigned int baudrate, int maxDataSize);
+			static void Send(char* data, int dataSize);
 		private:
+			void InitializesRegistries(unsigned int baudrate);
 			static bool IsBufferEmpty();
 		public:
 			static void EnableTxInterrupt();
 			static void DisableTxInterrupt();
 			static void SendWithInterrupts();
-			static unsigned int _dataSize;
-			static unsigned char* _sendBuffer;
-			static unsigned int _bytePosition;
+			static int _dataSize;
+			static char* _sendBuffer;
+			static int _bytePosition;
 	};
 }
 
