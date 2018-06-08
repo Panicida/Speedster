@@ -9,15 +9,16 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include "Senses/QTRA_Sensor.h"
-#include "Pololu/Time/OrangutanTime.h"
+//#include "Pololu/Time/OrangutanTime.h"
+#include "Communication/Serial.h"
 
 int main(void)
 {
 	DDRD |= (1<<DDD1);
 	PORTD &= ~(1<<PORTD7);
 	
-	unsigned char sensor_pins[] = {ADC0_PIN,ADC1_PIN};
-	Senses::QTRASensor qtra_sensor(sensor_pins,2,5);
+	unsigned char sensor_pins[] = { ADC1_PIN, ADC2_PIN, ADC3_PIN, ADC4_PIN, ADC5_PIN, ADC6_PIN };
+	Senses::QTRASensor qtra_sensor(sensor_pins,6,5);
 	
     /* Replace with your application code */
     while (1) 

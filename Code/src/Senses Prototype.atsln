@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Atmel Studio Solution File, Format Version 11.00
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Senses Prototype", "Senses Prototype\Senses Prototype.cppproj", "{DCE6C7E3-EE26-4D79-826B-08594B9AD897}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -15,6 +15,8 @@ Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Senses", "Senses\Senses.cpp
 	EndProjectSection
 EndProject
 Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Pololu", "Pololu\Pololu.cppproj", "{AE26EB4E-A7BF-441B-8E59-E0C40DED15C2}"
+EndProject
+Project("{E66E83B9-2572-4076-B26E-6BE79FF3018A}") = "Communication", "Communication\Communication.cppproj", "{421837F5-FF86-4D28-84A2-0689308D0282}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +36,10 @@ Global
 		{AE26EB4E-A7BF-441B-8E59-E0C40DED15C2}.Debug|AVR.Build.0 = Debug|AVR
 		{AE26EB4E-A7BF-441B-8E59-E0C40DED15C2}.Release|AVR.ActiveCfg = Release|AVR
 		{AE26EB4E-A7BF-441B-8E59-E0C40DED15C2}.Release|AVR.Build.0 = Release|AVR
+		{421837F5-FF86-4D28-84A2-0689308D0282}.Debug|AVR.ActiveCfg = Debug|AVR
+		{421837F5-FF86-4D28-84A2-0689308D0282}.Debug|AVR.Build.0 = Debug|AVR
+		{421837F5-FF86-4D28-84A2-0689308D0282}.Release|AVR.ActiveCfg = Release|AVR
+		{421837F5-FF86-4D28-84A2-0689308D0282}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
