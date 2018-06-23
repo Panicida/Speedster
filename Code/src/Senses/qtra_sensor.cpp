@@ -225,3 +225,8 @@ void Senses::QTRASensor::Calibrate()
 	PORTD = port;
 	DDRD = ddr;
 }
+
+unsigned short** Senses::QTRASensor::GetCalibrationMessures()
+{
+	return calibrationMessures;
+}

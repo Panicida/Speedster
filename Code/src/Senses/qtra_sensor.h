@@ -50,6 +50,8 @@ namespace Senses
 			// values are saved and used for read method.
 			void Calibrate();
 			
+			unsigned short** GetCalibrationMessures();
+			
 			// Reset all calibration done.
 			void ResetCalibration();
 			

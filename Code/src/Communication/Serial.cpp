@@ -78,8 +78,8 @@ void Communication::Serial::SendWithInterrupts()
 	}
 	else
 	{
-		Communication::Serial::DisableTxInterrupt();
 		Communication::Serial::_sendBuffer = NULL;
+		Communication::Serial::DisableTxInterrupt();
 	}
 }
 

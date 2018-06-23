@@ -9,8 +9,6 @@
 #ifndef SERIAL_H_
 #define SERIAL_H_
 
-#include "SerialData.h"
-
 namespace Communication
 {
 	class Serial
